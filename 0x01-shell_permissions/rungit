@@ -1,4 +1,21 @@
 #!/bin/bash
-git add .
-git commit -m 'new commit to repository'
-git push
+
+# Prompt the user for the file name
+read -p "Enter the file name: " filename
+
+# Ensure the file exists
+if [ -f "$filename" ]; then
+    # Change file permissions to make it executable
+    chmod +x "$filename"
+    
+    # Run the specified script
+    "./$filename"
+
+    # After running the script, commit and push changes
+    git add .
+    git commit -m 'new bash command'
+    git push
+else
+    echo "File '$filename' does not exist."
+fi
+
