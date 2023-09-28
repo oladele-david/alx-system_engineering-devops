@@ -1,2 +1,2 @@
 #!/bin/bash
-for file in ./*.html; do [ -e "../${file##*/}" ] || cp "$file" "../${file##*/}"; done
+find . -name "*.html" -type f -newer ../*.html -exec cp {} .. \;
