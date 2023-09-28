@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -maxdepth 1 -exec basename {} \; | sort -t$'\n' -k1,1d -k1.1,1 -k1.2n | sed ':a;N;$!ba;s/\n/,/g' | sed 's/^/./; s/.,/ /' && echo
+find . -maxdepth 1 -exec basename {} \, | sort -t$'\n' -k1,1d -k1.1,1 -k1.2n | sed -n '1s/^\.\//.\.\n/;1!s/^\.\//&\//;1!s/$/,/;H;${x;s/\n//g;s/^/./;p;}'
