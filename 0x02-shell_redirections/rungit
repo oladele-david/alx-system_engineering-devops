@@ -10,10 +10,10 @@ if [ -f "$filename" ]; then
     
     # Run the specified script
     "./$filename"
-
+    read -p "Enter Commit message: " commit
     # After running the script, commit and push changes
     git add .
-    git commit -m 'new bash command'
+    git commit -m "$commit"
     git push
 else
     echo "File '$filename' does not exist."
