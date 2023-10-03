@@ -1,0 +1,2 @@
+#!/bin/bash
+sort -n -k 1,1 -t $'\t' <<< $(find . -type f -name "*.gif" -print) | cut -d '.' -f 1
