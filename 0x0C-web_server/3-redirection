@@ -1,32 +1,28 @@
 #!/usr/bin/env bash
 
-# Install nginx and echo "Hello World" into index.html
+# Update package lists
 sudo apt-get update
-sudo apt-get install nginx -y
-echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html >/dev/null
 
-# Define Nginx configuration
+# Install Nginx (assuming root privileges for now)
+sudo apt-get install nginx -y
+
+# New server configuration with permanent redirect
 new_config="
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    root /usr/share/nginx/html;  # Corrected root directory
-    index index.html index.htm index.nginx-debian.html;
-    server_name _;
-    
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-    
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
+    # Redirect all requests to Youtube video
+    rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
 }
 "
 
-# Write new configuration to default file
-echo "$new_config" | sudo tee /etc/nginx/sites-available/default >/dev/null
+# Save the configuration to the default location
+echo "$new_config" > /etc/nginx/sites-available/default
 
-# Restart nginx
-sudo service nginx restart
+# Check Nginx service status and start/restart accordingly
+if ! systemctl status nginx &> /dev/null; then
+  systemctl start nginx
+else
+  systemctl restart nginx
+fi
 
